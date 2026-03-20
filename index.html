@@ -744,16 +744,14 @@ G={
 		new G.perk({name:`barbaric`,desc:`Brutal, though not necessarily cruel. Hard to reason with.`,tier:0});
 		new G.perk({name:`adept`,desc:`Proficient melee combatant.`,tier:2});
 		new G.perk({name:`stealthy`,desc:`Harder to detect, slips in with the shadows.`,tier:1});
-		new G.perk({name:`wise`,desc:`Tends to be a step ahead of everybody else.`,tier:3});
-		new G.perk({name:`burning`,desc:`Unlikely to last very long.`,tier:-1});
+		new G.perk({name:`wise`,desc:`Tends to be a step ahead of everybody else.`,tier:2});
 		new G.perk({name:`jerkish`,desc:`Carries an inflated sense of self-importance.`,tier:0});
 		new G.perk({name:`lucky`,desc:`Sometimes, things just seem to work out for them.`,tier:1});
-		new G.perk({name:`blogger`,desc:`Recording their adventures.`,tier:0});
 
 		// reality bender abilities
 		new G.perk({name:`pixelate`,desc:`OP ability - rendering your enemies as mere pixels, detaching them from reality!`,tier:4});
 		new G.perk({name:`disassemble`,desc:`OP ability - pick apart your enemies flesh and soul with your mind!`,tier:4});
-		new G.perk({name:`viltrumite`,desc:`Out of service!`,tier:4});
+		new G.perk({name:`viltrumite strength`,desc:`Makes you as strong (NOT DURABLE) as a viltrumite!`,tier:4});
 
 		G.glob={type:'trait',def:false};
 		new G.perk({name:`any`,desc:`Applies to everyone.`});
@@ -888,6 +886,7 @@ G={
 		new G.perk({name:`boxing gloves`,desc:`A weapon designed to be safe. Hard to kill with, but powerful tools if you seek to discombobulate your foes.`,tier:0});
 		new G.perk({name:`big stick`,desc:`Rather crude, but can bash an unsuspecting enemy just fine.`,tier:0});
 		new G.perk({name:`pitchfork`,desc:`Used to stack hay and stab your friends.`,tier:1});
+		new G.perk({name:`harpoon`,desc:`Great at catching fish! Alternatively, great at pulling organs out!`,tier:1});
 		new G.perk({name:`knife`,desc:`Your standard, reliable sharp blade.`,tier:1});
 		new G.perk({name:`baseball bat`,desc:`For when you just really need to kill Shoeless Joe.`,tier:1});
 		new G.perk({name:`shovel`,desc:`Jane Doe's favorite.`,tier:1});
@@ -1163,7 +1162,7 @@ G={
 				G.teams.splice(e.newIndex,0,me);
 			}});
 			
-			var randTeamNames=[`Gazelle`,`Mammoth`,`Phoenix`,`Wolf`,`Tiger`,`Bear`,`Polar bear`,`Viper`,`Cobra`,`Owl`,`Jaguar`,`Lion`,`Spider`,`Scorpion`,`Beetle`,`Wasp`,`Mantis`,`Mongoose`,`T-rex`,`Dragon`,`Gorilla`,`Panda`,`Zebra`,`Unicorn`,`Howler monkey`,`Fox`,`Bunny`,`Falcon`,`Yeti`,`Ox`,`Boar`,`Gryphon`,`Rhino`,`Shark`,`Dolphin`,`Whale`,`Salmon`,`Lobster`,`Hydra`,`Anomalocaris`,`Trilobite`,`Weasel`,`Frog`,`Toad`,`Tortoise`,`Gecko`,`Salamander`,`Lynx`,`Pelican`,`Kitten`,`Puppy`,];
+			var randTeamNames=[`Gazelle`,`Mammoth`,`Phoenix`,`Wolf`,`Tiger`,`Bear`,`Polar bear`,`Viper`,`Cobra`,`Owl`,`Jaguar`,`Lion`,`Spider`,`Scorpion`,`Beetle`,`Wasp`,`Mantis`,`Mongoose`,`T-rex`,`Dragon`,`Gorilla`,`Panda`,`Zebra`,`Unicorn`,`Howler monkey`,`Fox`,`Bunny`,`Falcon`,`Yeti`,`Ox`,`Boar`,`Gryphon`,`Rhino`,`Shark`,`Dolphin`,`Whale`,`Salmon`,`Lobster`,`Hydra`,`Anomalocaris`,`Trilobite`,`Weasel`,`Frog`,`Toad`,`Tortoise`,`Gecko`,`Salamander`,`Lynx`,`Pelican`,`Kitten`,`Puppy`,`Vaz`,];
 			for (var i in randTeamNames){randTeamNames[i]=`Team `+randTeamNames[i];}
 			
 			var randNamesM=[`Alastor`,`Bort`,`Champ`,`Dennis`,`Emett`,`Frank`,`Gordon`,`Henry`,`Isaac`,`Jeff`,`Ken`,`Lance`,`Maurice`,`Nathan`,`Oliver`,`Pete`,`Quentin`,`Rafael`,`Sam`,`Todd`,`Umberto`,`Vince`,`Will`,`Xavier`,`Yann`,`Zach`];
@@ -1325,8 +1324,8 @@ G={
 					if (me.def && me.type=='item') itemsList.push(me);
 				}
 				
-				var minTraits=3;
-				var minItems=3;
+				var minTraits=4;
+				var minItems=4;
 				
 				if (!o.perks)
 				{
