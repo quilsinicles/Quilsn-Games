@@ -742,10 +742,18 @@ G={
 		new G.perk({name:`flight`,desc:`This character has unlocked the secrets of viltrumite balance.`,tier:2});
 		new G.perk({name:`freaky`,desc:`Seeks out unscrupulous activity.`,tier:0});
 		new G.perk({name:`barbaric`,desc:`Brutal, though not necessarily cruel. Hard to reason with.`,tier:0});
+		new G.perk({name:`adept`,desc:`Proficient melee combatant.`,tier:2});
+		new G.perk({name:`stealthy`,desc:`Harder to detect, slips in with the shadows.`,tier:1});
+		new G.perk({name:`wise`,desc:`Tends to be a step ahead of everybody else.`,tier:3});
+		new G.perk({name:`burning`,desc:`Unlikely to last very long.`,tier:-1});
+		new G.perk({name:`jerkish`,desc:`Carries an inflated sense of self-importance.`,tier:0});
+		new G.perk({name:`lucky`,desc:`Sometimes, things just seem to work out for them.`,tier:1});
+		new G.perk({name:`blogger`,desc:`Recording their adventures.`,tier:0});
 
 		// reality bender abilities
-		new G.perk({name:`pixelate`,desc:`Reality bender ability - rendering your enemies as mere pixels, detaching them from reality!`,tier:4});
-		new G.perk({name:`disassemble`,desc:`Reality bender ability - pick apart your enemies flesh and soul with your mind!`,tier:4});
+		new G.perk({name:`pixelate`,desc:`OP ability - rendering your enemies as mere pixels, detaching them from reality!`,tier:4});
+		new G.perk({name:`disassemble`,desc:`OP ability - pick apart your enemies flesh and soul with your mind!`,tier:4});
+		new G.perk({name:`viltrumite`,desc:`Out of service!`,tier:4});
 
 		G.glob={type:'trait',def:false};
 		new G.perk({name:`any`,desc:`Applies to everyone.`});
@@ -2355,11 +2363,22 @@ G={
 			new G.act(1,['devious alive:1 unalive:>0'],`[1] is glad [1:they] made it out alive.`);
 			new G.act(1,['!survivalist|sociopath|devious alive:1 unalive:>0'],`[Dead... they're all dead...|[1] stares into the distance... Was it really worth it?|[1] survived... but at what price?]`);
 			new G.act(1,['freaky'],`[1] [ponders|imagines|yearns for] something unmentionable.`);
+			new G.act(1,['freaky','+ artist'],`[1] wants [2] to make some questionable art.`);
 			new G.act(1,['freaky','+ freaky'],`[2] matches [1]'s freak! Only horrible things can arise from this..`);
 			new G.act(1,['chubby'],`[1] is thinking about food.`);
 			new G.act(1,['chubby sociopath|barbaric'],`[1] considers cannibalism. Not out of necessity, but for fun.`);
 			new G.act(1,['flight'],`[1] [hovers in|glides through] the air.`);
+			new G.act(1,['flight analytical'],`[1] thinks about how best [1:they] can utilize their blessing of flight.`);
+			new G.act(1,['flight wise'],`[1] knows it's better to [float|hover] in the sky than to risk fighting.`);
 			new G.act(1,['chubby flight'],`[1] feels exhausted after just a minute of hovering in the air.`);
+			new G.act(1,['chubby wise'],`In truth, [1] is aware of [1:their] unhealthy lifestyle, but can't seem to resist the temptations regardless.`);
+			new G.act(1,['adept'],`[1] throws a flurry of punches and kicks in the air`.);
+			new G.act(1,['burning'],`[1] feels very on fire today.`);
+			new G.act(1,['wise'],`[1] considers the ways today could play out.`);
+			new G.act(1,['wise|peaceful barbaric'],`Part of [1] detests the fighting and violence, another part revels in it.`);
+			new G.act(1,['wise medic inTeam'],`[1] knows how vital [1:they] are to [1:their] team.`);
+			new G.act(1,['jerkish'],`[1] thinks everyone else is just intolerant of [1:their] vision.`);
+			new G.act(1,['stealthy'],`[1] lurks in the shadows.`);
 			new G.act(1,['alive:1 unalive:0'],`[1] is all by [1:themself].`);
 			new G.act(1,['alive:1'],`[1] [screams at nobody in particular|hums to [1:themself]|wishes [1:they] had someone to talk to|].`);
 			new G.act(2,['determined|any%0.2 leader inTeam'],`[1] is determined to lead [1:their] team to victory, whatever the cost may be.`);
@@ -2532,6 +2551,7 @@ G={
 			new G.act(newItemMult*0.03,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|marksmen%0.2|survivalist%0.2|any%0.5 !slingshot !peaceful|naive%0.2'],`[BLUE][1] finds a slingshot! How quaint...<br>Might be useful in a pinch.`,p=>{p[1].gain('slingshot');});
 			new G.act(newItemMult*0.02,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|marksmen%0.2|survivalist%0.2|any%0.5 !bow !peaceful|naive%0.2'],`[BLUE][1] finds a bow and some arrows.<br>It'll take some practice but this can surely come in handy.`,p=>{p[1].gain('bow');});
 			new G.act(newItemMult*0.01,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|pyromania%0.5|survivalist%0.2|any%0.5 !flamethrower !peaceful|naive%0.2'],`[BLUE]Are you kidding? [1] just found a flamethrower!<br>See if anyone gets in [1:their] way now!`,p=>{p[1].gain('flamethrower');});
+			new G.act(newItemMult*0.05,['lucky mjölnir !mjölnir'],`In a crater, [1] finds the godly hammer mjölnir! <br> This could be useful.`,p=>{p[1].gain('mjölnir');});
 			new G.act(newItemMult*0.005,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|inventor%0.2|survivalist%0.2|any%0.5 !lasergun !peaceful|naive%0.2'],`[BLUE]Whoah! [1] just found a lasergun!<br>[1:g|He starts|She starts|They start|It starts] swinging it around making "pew pew" sounds, before [1:they] realize [1:they] can just pull the trigger and make those sounds for real.`,p=>{p[1].gain('lasergun');});
 			new G.act(newItemMult*0.02,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|naive%0.2|the_gift%0.2|any%0.5 !magic_wand'],`[BLUE][1] follows some sparkles and discovers a magic wand!<br>Hopefully it still has some spells left in it...`,p=>{p[1].gain('magic wand');});
 			new G.act(newItemMult*0.005,['scrappy%0.5|vigilant%0.2|lucky_coin%0.2|goth%0.2|the_gift%0.2|any%0.5 !ancient_scepter|naive%0.2'],`[BLUE][1] catches a strange glow in the corner of [1:their] eye and discovers an ancient scepter!<br>Arcane magic courses through [1:their] body as [1:their] fingers touch the carved wood.`,p=>{p[1].gain('ancient scepter');});
@@ -2761,6 +2781,7 @@ G={
 			new G.act(0.025,['random_orb !sword'],`[BLUE][1] pretends to draw one of the items appearing on the surface of [1:their] orb.<br>To [1:their] surprise, they draw a sword out from the orb as it fades away.`,p=>{p[1].gain('sword');p[1].lose('random orb');});
 			new G.act(0.025,['random_orb !axe'],`[BLUE][1] shakes their random item orb. It turns into an axe, upping [1:their] chances of survival somewhat.`,p=>{p[1].gain('axe');p[1].lose('random orb');});
 			new G.act(0.025,['random_orb !cursed_knife'],`[RED][1] ponders [1:their] orb, as it begins to glow a dark red...<br>The orb hatches like an egg, leaving an eerie knife.`,p=>{p[1].gain('cursed knife');p[1].lose('random orb');});
+			new G.act(0.025,['random_orb !knife'],`[RED][1] ponders [1:their] orb, when the orb suddenly turns to water, leaving only a knife in [1]'s hand.`,p=>{p[1].gain('knife');p[1].lose('random orb');});
 			// - Ranged
 			new G.act(0.03125,['random_orb !slingshot'],`[BLUE][1] watches [1:their] orb slowly turn into an item.<br>Hey, listen! It's just a slingshot now.`,p=>{p[1].gain('slingshot');p[1].lose('random orb');});
 			new G.act(0.03125,['random_orb !slingshot'],`[BLUE][1] nearly trips and drops [1:their] random item orb.<br>As it lands, it shatters into a myriad throwing knives and shuriken.`,p=>{p[1].gain('shuriken');p[1].lose('random orb');});
@@ -3025,11 +3046,12 @@ G={
 			var attackKill=1;     // 09% to 97%
 			
 			// Generic Combat
-			new G.act(anyAttackMult*attackMinor*0.15,[hesitentKiller,'- any '+victimMinor],`[RED][1] ambushes [2], but [2] manages to escape with only minor bruises.`,p=>{p[2].gain('bruised');});
-				new G.act(anyAttackMult*attackMinor*0.05,[hesitentKiller+' '+victimMinor,'- !peaceful%0.5|naive%0.2|meek%0.2'],`[RED][1] attacked [2] during an ambush, but was sent running with bruises instead.`,p=>{p[1].gain('bruised');});
-				new G.act(anyAttackMult*attackMinor*0.05,[hesitentKiller+' '+victimMinor,'- !peaceful%0.5|naive%0.2|meek%0.2 '+victimMinor],`[RED][1] and [2] fought with good old fists, leaving each other bruised but alive.`,p=>{p[1].gain('bruised');p[2].gain('bruised');});
+			
+				new G.act(anyAttackMult*attackMinor*0.05,[hesitentKiller+' '+victimMinor,'- !viltrumite peaceful%0.5|naive%0.2|meek%0.2'],`[RED][1] attacked [2] during an ambush, but was sent running with bruises instead.`,p=>{p[1].gain('bruised');});
+				new G.act(anyAttackMult*attackMinor*0.05,[hesitentKiller+' '+victimMinor,'- !viltrumite peaceful%0.5|naive%0.2|meek%0.2 '+victimMinor],`[RED][1] and [2] fought with good old fists, leaving each other bruised but alive.`,p=>{p[1].gain('bruised');p[2].gain('bruised');});
+			new G.act(anyAttackMult*attackMinor*0.05,[hesitentKiller,'- adept '+victimMinor,'- !viltrumite peaceful%0.5|naive%0.2|meek%0.2 '+victimMinor],`[RED][2] attempts to attack [1], but [1] spins around, delivering a swift kick to the teeth! [2] retreats.`,p=>{p[2].gain('bruised');});
 				
-			new G.act(anyAttackMult*attackModerate*0.15,[hesitentKiller,'- any '+victimModerate],`[RED][1] and [2] ended up in a fight, with [2] ending up with a few broken ribs before it ended.`,p=>{p[2].gain('broken');});
+			new G.act(anyAttackMult*attackModerate*0.15,[hesitentKiller,'- any '+victimModerate,'- !viltrumite'],`[RED][1] and [2] ended up in a fight, with [2] ending up with a few broken ribs before it ended.`,p=>{p[2].gain('broken');});
 				new G.act(anyAttackMult*attackModerate*0.05,[hesitentKiller+' '+victimModerate,'- '+hesitentKiller],`[RED][1] picked a fight with [2] only to be left unconscious for a few hours after a solid [punch|kick] to the chest.`,p=>{p[2].gain('broken');});
 				new G.act(anyAttackMult*attackModerate*0.05,[hesitentKiller+' '+victimModerate,'- '+hesitentKiller+' '+victimModerate],`[RED][1] and [2] were both forced to escape after nearly killing each other in a fight.`,p=>{p[1].gain('broken');p[2].gain('broken');});
 				
@@ -3078,6 +3100,7 @@ G={
 			// Freezing sapphire combat -CS
 			new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' freezing_sapphire','- any '+victimKill],`[RED][1] creeps up behind [2] and throw [1:their] freezing sapphire, turning [2:them] into a solid block of ice - before promptly [throwing [2:them] down a [cliff|lake]|smashing it into pieces|burying it into the ground]!`,p=>{p[1].kill(p[2], 'freezing sapphire');p[1].lose('freezing sapphire');});
 				new G.act(perkAttackMult*attackKill*0.3,[coldBloodKiller+' freezing_sapphire devious|sociopath','- any '+victimKill],`[RED][1] creeps up behind [2] and quickly tackles [2:them] to the ground, before promptly shoving [1:their] freezing sapphire down [2:their] throat!`,p=>{ p[1].kill(p[2], 'glacial stasis'); p[1].lose('freezing sapphire'); });
+			new G.act(perkAttackMult*attackKill*0.3,[coldBloodKiller+' freezing_sapphire ','- flight '+victimKill],`[RED][1] nails a flawless freezing sapphire throw on [2]! [2] ices up mid-air, and crashes down to earth in a million pieces!`,p=>{ p[1].kill(p[2], 'glacial stasis'); p[1].lose('freezing sapphire'); });
             // Big Stick Combat
 			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' big_stick bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] wacked [2] with [1:their] stick, leaving a nasty bruise.`,p=>{p[2].gain('bruised');});
 			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' big_stick bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] beat [2] black and blue with [1:their] stick, beaking a bone or two.`,p=>{p[2].gain('broken');});
