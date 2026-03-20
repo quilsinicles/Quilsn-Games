@@ -8,6 +8,7 @@
 		Code and graphics copyright Orteil, 2018
 		Modified and improved by TrueWolves for the first and second edition of the Dashnet murder games in the Dashnet forums discord server
 		Modified and improved by CursedSliver for the third and fourth edition of the Dashnet murder games
+		Modified (though if it improved is debatable) by baconator.supreme (thats me!) for funsies
 		Special thanks to sage for making a murder games act creator (cactus), leo for the dashnet games setups converter, and kruta for making a bit of art
 		
 		//TODO : 
@@ -740,6 +741,7 @@ G={
 		new G.perk({name:`chubby`,desc:`Unlikely to escape on-foot or conserve resources.`,tier:-1});
 		new G.perk({name:`flight`,desc:`This character has unlocked the secrets of viltrumite balance.`,tier:2});
 		new G.perk({name:`freaky`,desc:`Seeks out unscrupulous activity.`,tier:0});
+		new G.perk({name:`barbaric`,desc:`Brutal, though not necessarily cruel. Hard to reason with.`,tier:0});
 
 		// reality bender abilities
 		new G.perk({name:`pixelate`,desc:`Reality bender ability - rendering your enemies as mere pixels, detaching them from reality!`,tier:4});
@@ -875,13 +877,18 @@ G={
 		G.glob={type:'item'};
 			G.glob.def=true;
 		new G.perk({name:`no item`,desc:`No item selected.`});
-		
+		new G.perk({name:`boxing gloves`,desc:`A weapon designed to be safe. Hard to kill with, but powerful tools if you seek to discombobulate your foes.`,tier:0});
 		new G.perk({name:`big stick`,desc:`Rather crude, but can bash an unsuspecting enemy just fine.`,tier:0});
 		new G.perk({name:`pitchfork`,desc:`Used to stack hay and stab your friends.`,tier:1});
+		new G.perk({name:`knife`,desc:`Your standard, reliable sharp blade.`,tier:1});
+		new G.perk({name:`baseball bat`,desc:`For when you just really need to kill Shoeless Joe.`,tier:1});
+		new G.perk({name:`shovel`,desc:`Jane Doe's favorite.`,tier:1});
 		new G.perk({name:`sword`,desc:`A classic bladed weapon popular since medieval times.`,tier:2});
 		new G.perk({name:`axe`,desc:`Makes quick, if messy work of anyone who'd stand in your way.`,tier:2});
+		new G.perk({name:`great mace`,desc:`A remarkably powerful weapon known to crack skulls and deliver pointy reckonings.`,tier:2});
 		new G.perk({name:`mjölnir`,desc:`Delivers unreasonable power to the hands of the worthy, represents certain death to the unworthy.`,tier:4});
 		new G.perk({name:`stop sign`,desc:`Difficult to control, but one can put some serious force behind it.`,tier:1});
+		new G.perk({name:`physgun`,desc:`Remarkably powerful spacial manipulation device. Known to disobey Newtonian physics`,tier:3});
 		new G.perk({name:`handgun`,desc:`Takes down a target quite reliably if you know how to aim.`,tier:1,init:{loaded:1}});
 		new G.perk({name:`shotgun`,desc:`Delivers a powerful, low-accuracy blow.`,tier:2,init:{loaded:1}});
 		new G.perk({name:`hunting rifle`,desc:`Boom. Headshot.`,tier:3,init:{loaded:1}});
@@ -943,6 +950,7 @@ G={
 		new G.perk({name:`vanilla ice cream`,desc:`The compellment to acquire this item is unparalleled.`,tier:1});
 		new G.perk({name:`cookie dough`,desc:`Can be consumed, or be baked into a proper batch of cookies. Premature consumption may lead to sickness.`,tier:0,init:{uses:2}});
 		new G.perk({name:`panacea pellet`,desc:`A highly magical pellet that cures literally everything at once - including death itself.`,tier:3});
+		new G.perk({name:`bottle of whiskey`,desc:`Can stop pain in a pinch. Also stops most neural function in a pinch.`,tier:-1,init:{uses:3}});
 
 		// Additional items - CS
 		new G.perk({name:`snake charmer\'s flute`,desc:`Calls forth a snake to ascend upwards indefinitely.`,tier:2});
@@ -1963,7 +1971,7 @@ G={
 				new G.pronoun(1, 'she', 'her', 'her', 'herself', 'hers');
 				new G.pronoun(2, 'they', 'them', 'their', 'themself', 'theirs', { do: 'do', are: 'are', have: 'have' });
 				new G.pronoun(3, 'it', 'it', 'its', 'itself', 'its');
-				//new G.pronoun(4, 'ze', 'zir', 'zir', 'zirself', 'zirs');
+				new G.pronoun(4, 'ze', 'zir', 'zir', 'zirself', 'zirs');
 				new G.charParseModule('are', function() {
 					return G.pronouns[this.gender].are;
 				});
@@ -2285,13 +2293,16 @@ G={
 			new G.act(1,['peaceful'],`[1] [doesn't feel prepared for any of this|hopes [1:g|he doesn't|she doesn't|they don't|it doesn\'t] have to harm anyone].`);
 				new G.act(0.5,['peaceful%0.5|kind%0.5|naive%0.5|medic%0.5|any%0.5 !sociopath|survivalist%0.5','+ peaceful'],`[1] seems to find [2]'s presence soothing.`);
 			new G.act(1,['sociopath deaths:>0'],`[1] [seems unshaken by any of this|is only looking out for [1:themself]].`);
+			new G.act(1,['sociopath barbaric deaths:>0'],`[1] loves the smell of viscera.`);
 			new G.act(1,['kind teamalive:>1'],`[1] [just wants to be helpful|is ready to defend [1:their] friends].`);
 				new G.act(0.5,['kind|naive|peaceful|any%0.5 !sociopath|devious%0.5|survivalist%0.5','+ kind|medic%0.5|any%0.2'],`[1] thanks [2] for being there for [1:them].`);
 				new G.act(0.5,['kind','+ cute'],`[1] [can't stop fawning over [2]...|wants to protect [2]!]`);
 				new G.act(0.5,['kind|medic%0.5|any%0.2 !sociopath|survivalist%0.5','+ shell-shocked'],`[[1] tries to cheer [2] up, but it's not really working...|[1] is really worried about [2]...|[1] doesn't know how to cheer [2] up...]`);
 			new G.act(1,['unstable'],`[1] [looks on the verge of snapping|twitches uncontrollably].`);
 			new G.act(1,['bulky'],`[1] [sizes [1:their] muscles|feels strong enough to handle anything].`);
+			new G.act(1,['bulky barbaric'],`[1] wants to [rip someone's spine out|knock someone's jaw off].`);
 			new G.act(1,['meek'],`[1] [wants this to be over already|wishes [1:they] could go home].`);
+			new G.act(1,['barbaric deaths:<0 !peaceful'],`[1] is bored by the peace.`);
 				new G.act(0.5,['meek','+ bulky|leader|any%0.2'],`[1] is glad [1:they] can rely on [2].`);
 			new G.act(1,['naive'],`[1] [doesn't really understand what's happening|fails to grasp the gravity of the situation].`);
 				new G.act(0.5,['kind|naive|artist|clumsy%0.5|any%0.2 !sociopath|devious%0.5|survivalist%0.5','+ kind|naive|cute|artist|any%0.2 !sociopath|devious%0.5|survivalist%0.5'],`[1] and [2]'s fingers touch by accident.<br>They both blush a little bit...`);
@@ -2303,11 +2314,13 @@ G={
 			new G.act(1,['seductive alive:>1'],`[1] [doesn't care much for this place|tries to get others to notice [1:them]].`);
 				new G.act(0.5,['seductive alive:1'],`There's nobody left to notice [1]...`);
 				new G.act(0.5,['','+ seductive'],`[1] can't take [1:their] eyes off [2]...`);
+				new G.act(0.5,['freaky','+ seductive'],`[1] can hardly resist [2]'s temptations.`);
 				new G.act(0.5,['seductive','+ naive'],`[1] whispers some things in [2]'s ear, but [2] is a bit too innocent to understand.`);
 				new G.act(0.5,['seductive','+ rich|analytical|artist%0.5|any%0.2 !naive'],`[1] hits on [2], but [2] finds it suspicious...`);
 			new G.act(1,['suicidal'],`[1] [wishes [1:g|he was|she was|they were|it was] dead|longs for death].`);
 			new G.act(1,['cute'],`[1] [is being adorable as always|does something really cute].`);
 			new G.act(1,['annoying teamalive:>1'],`[1] [rambles on about something nobody cares about|keeps trying to tell a joke, but it always falls flat].`);
+			new G.act(1,['barbaric','+ annoying'],`[1] [wants to kill|can hardly resist annihilating|wants to eviscerate] [2] for [2:their] constant annoyances.`);
 				new G.act(0.5,['annoying','+ annoying|artist%0.5'],`[[1] is glad to have someone like [2] [to tell really bad puns to|to have boring conversations with].|[1] and [2] giggle like idiots. Better not ask.]`);
 			new G.act(1,['scrappy'],`[1] [looks around for stuff to scrounge|spots something shiny in the distance].`);
 			new G.act(1,['survivalist deaths:0'],`[1] [came prepared|could get used to this place].`);
@@ -2322,11 +2335,13 @@ G={
 				new G.act(0.5,['medic|kind%0.5|any%0.2 !sociopath','+ team teamalive:>2'],`[1] checks [1:their] team's [health|injuries|medical supplies].`);
 			new G.act(1,['marksmen !handgun%0.5|shotgun%0.5|hunting_rifle%0.5|lasergun%0.5'],`[1] keeps [1:their] eyes open [to [1:their] surroundings|for danger|for anything unexpected|for a firearm to use].`);
 				new G.act(0.5,['marksmen|any%0.2 handgun|shotgun|lasergun !peaceful|naive%0.5 '],`[1] [aims down the sights of|cleans|performs maintenance on|practices with] [1:their] gun.`);
+				new G.act(0.5,['marksmen hunting_rifle !peaceful|naive%0.5 '],`[1] [lies in wait|camps in a bush|takes the high ground|stalks [1:their] sightline] with [1:their] trusty rifle.`);
 			new G.act(1,['animal_ken|peaceful%0.2'],`[1] [feeds|dances with|encounters|plays with] a wild [squirrel|mouse|bird|deer|animal] in the [woods|forest|field|grass|night] peacefully.`);
 			new G.act(1,['ninja'],`[1] [practices|shows off|performs some] [hardcore parkour|throwing techniques|hiding in plain sight|sick ninja skills].`);
 			new G.act(1,['stubborn'],`[1] is ready to [fearlessly |stubbornly | ][ignore|face|handle|endure] [the cold|any struggle|danger|[1:their] fear].`);
 			new G.act(1,['analytical'],`[1] [plans ahead|begins drafting plans|analyzes the situation|begins overthinking the sitution|considers all the variables ahead].`);
 			new G.act(1,['artist'],`[1] creates a [sketch|drawing|picture|character] [in [1:their] spare time|while bored|to distract [1:themself]].`);
+			new G.act(0.5,['artist marksmen|sociopath hunting_rifle'],`[1] wonders if [1:they] could splatter somebody's brains on and sell it as modern art.`);
 			new G.act(1,['pyromania'],`[1] really wants to [burn something|light a fire|create some sparks|warm up somewhere safe].`);
 			new G.act(1,['cowardly'],`[1] is afraid of [what's next|the dark|a sound [1:they] heard|possible dangers|everything..].`);
 			new G.act(1,['clumsy'],`[1] [stumbles|trips|drops something] but [nothing serious happens|[1:they] will be fine].`);
@@ -2340,8 +2355,11 @@ G={
 			new G.act(1,['devious alive:1 unalive:>0'],`[1] is glad [1:they] made it out alive.`);
 			new G.act(1,['!survivalist|sociopath|devious alive:1 unalive:>0'],`[Dead... they're all dead...|[1] stares into the distance... Was it really worth it?|[1] survived... but at what price?]`);
 			new G.act(1,['freaky'],`[1] [ponders|imagines|yearns for] something unmentionable.`);
+			new G.act(1,['freaky','+ freaky'],`[2] matches [1]'s freak! Only horrible things can arise from this..`);
 			new G.act(1,['chubby'],`[1] is thinking about food.`);
+			new G.act(1,['chubby sociopath|barbaric'],`[1] considers cannibalism. Not out of necessity, but for fun.`);
 			new G.act(1,['flight'],`[1] [hovers in|glides through] the air.`);
+			new G.act(1,['chubby flight'],`[1] feels exhausted after just a minute of hovering in the air.`);
 			new G.act(1,['alive:1 unalive:0'],`[1] is all by [1:themself].`);
 			new G.act(1,['alive:1'],`[1] [screams at nobody in particular|hums to [1:themself]|wishes [1:they] had someone to talk to|].`);
 			new G.act(2,['determined|any%0.2 leader inTeam'],`[1] is determined to lead [1:their] team to victory, whatever the cost may be.`);
@@ -2349,10 +2367,16 @@ G={
 			//item-related idling
             //Halved the idle-chance to compensate for additional items -TW
 			new G.act(0.5,['big_stick !naive|peaceful|cowardly alive:>1'],`[1] waves [1:their] big stick around menacingly.`);
+			new G.act(0.5,['boxing_gloves !naive|peaceful|cowardly alive:>1'],`[1] uppercuts the air in a display of power.`);
+			new G.act(0.5,['has_killed boxing_gloves'],`[1] didn't even notice how bloody [1:their] boxing gloves were!`);
 			new G.act(0.5,['pitchfork !peaceful'],`[1] wonders how far [1:they] could throw [1:their] pitchfork.`);
 			new G.act(0.5,['pitchfork flight'],`[1] considers attacking from above, like an eagle.`);
+			new G.act(0.5,['shovel'],`[1] digs in the ground with [1:their] shovel, for no real reason.`);
+			new G.act(0.5,['shovel flight'],`[1] wonders if [1:their] shovel would be more effective in aerial combat.`);
+			new G.act(0.5,['baseball_bat'],`[1] practices [1:their] batting swing.`);
 			new G.act(0.5,['sword !peaceful'],`[1] swooshes the air with [1:their] sword.`);
 			new G.act(0.5,['axe !naive|peaceful'],`[1] is ready to use [1:their] axe if [1:g|he has|she has|they have|it has] to.`);
+			new G.act(0.5,['great_mace !peaceful'],`[1] holds [1:their] mace up in the air in a display of might!`);
 			new G.act(0.5,['handgun !peaceful|suicidal%0.5'],`[1] aims [1:their] handgun in the distance.`);
 				new G.act(0.25,['handgun suicidal'],`[1] looks at the end of [1:their] handgun, then puts it to [1:their] head. Yeah... that oughta do it.`);
 			new G.act(0.5,['shotgun !naive|peaceful|suicidal%0.5'],`[1] reloads [1:their] shotgun, just in case.`);
@@ -2913,6 +2937,8 @@ G={
 			new G.act(0.08,['lunatic meek|any%0.5 !cowardly|bulky%0.5'],`[RED][1]'s [unusual|unpredictable|crazy] [brain|mind] can't handle all the danger anymore, becoming flighty and paranoid.`,p=>{p[1].gain('cowardly');});
 			new G.act(0.08,['lunatic glasses|any%0.5 !clumsy|scrappy%0.5'],`[RED][1]'s [unusual|unpredictable|crazy] [brain|mind] is becoming less and less cordinated, stumbling a lot more than [1:they] used to.`,p=>{p[1].gain('clumsy');});
 			new G.act(0.08,['lunatic artist%0.5|cute%0.2|annoying%0.2|any%0.2 !gremlin|leader%0.5'],`[1]'s [unusual|unpredictable|crazy] [brain|mind] leads to [1:them] causing chaos everywhere they can!`,p=>{p[1].gain('gremlin');});
+			new G.act(0.08,['lunatic !chubby'],`[1]'s [unusual|unpredictable|crazy] [brain|mind] causes [1:them] to eat, a lot.`,p=>{p[1].gain('chubby');});
+			new G.act(0.08,['lunatic !flight'],`[1]'s [unusual|unpredictable|crazy] [brain|mind] causes [1:them] to go into exile. [1:They] return, not on foot, but in the air!`,p=>{p[1].gain('flight');});
 			// - - Lose Traits
 			new G.act(0.04,['lunatic unstable peaceful|any%0.5'],`[BLUE][1] finds a moment of [clarity|zen] in the chaos of the games, stablizing for now.`,p=>{p[1].lose('unstable');});
 			new G.act(0.02,['lunatic kind sociopath|any%0.5'],`[RED]Kindness seems to leave [1]'s shifting personality.`,p=>{p[1].lose('kind');});
@@ -3011,12 +3037,14 @@ G={
 				new G.act(anyAttackMult*attackMajor*0.05,[coldBloodKiller+' '+victimMajor,'- '+hesitentKiller],`[RED][1] attempts to [ambush|attack|duel] [2] but makes a life-threatening mistake in the fight before escaping.<br>[2] is left confused and covered in [1]'s blood. A lot of blood...`,p=>{p[1].gain('bleeding out');});
 				new G.act(anyAttackMult*attackMajor*0.05,[coldBloodKiller+' '+victimMajor,'- '+hesitentKiller+' '+victimMajor],`[RED]In a particularly violent [affair|duel|battle|fight] between [1] and [2], both are left with life-threatening wounds.`,p=>{p[1].gain('bleeding out');p[2].gain('bleeding out');});
 			
-			new G.act(anyAttackMult*attackKill*0.1,[coldBloodKiller,'- any !vigilant '+victimKill],`[RED][1] [ambushes [2]|attacks [2] from behind] and [murders|kills|slaughters|strangles|eviscerates|gets rid of] [2:them]!`,p=>{p[1].kill(p[2],`ambush`);});
-				new G.act(anyAttackMult*attackKill*0.02,[coldBloodKiller,'- '+victimKill+' '+hesitentKiller],`[RED][[1] duels it out with [2]|[1] challenges [2] to a duel|[2] challenges [1] to a duel|[1] wants to end things once and for all with [2]|[2] wants to end things once and for all with [1]].<br>[2] bites the dust!`,p=>{p[1].kill(p[2],`duel`);});
-				new G.act(anyAttackMult*attackKill*0.02,[hesitentKiller+' !sociopath|survivalist%0.5|devious%0.5 deaths:>0','- any '+victimKill],`[RED][1] really doesn't want to, but [1:g|he finds himself|she finds herself|they find themself|it finds itself] having to get rid of [2].`,p=>{p[1].kill(p[2],`murder`);});
-			new G.act(anyAttackMult*attackKill**0.02,[hesitentKiller+' '+victimKill,'- '+hesitentKiller],`[RED][1] tries to kill [2], but [2] retaliates and kills [1:them] instead.`,p=>{p[2].kill(p[1],`retaliation`);});
-				new G.act(anyAttackMult*attackKill*0.01,[coldBloodKiller+' '+victimKill,'- '+hesitentKiller],`[RED][[1] duels it out with [2]|[1] challenges [2] to a duel|[2] challenges [1] to a duel|[1] wants to end things once and for all with [2]|[2] wants to end things once and for all with [1]].<br>[1] bites the dust!`,p=>{p[2].kill(p[1],`duel`);});
-				new G.act(anyAttackMult*attackKill*0.01,[hesitentKiller+' '+victimKill,'- cute|any%0.2 cute%0.5|seductive%0.5|bikini%0.5|artist%0.5|glasses%0.2|any%0.5 sociopath%0.5|devious%0.5|any%0.5 '+coldBloodKiller],`[RED][1] [ambushes [2]|attacks [2] from behind] and tries to [kill|murder|attack] [2:them] but [2] is too cute to kill.<br>That doesn't stop [2] from [stabbing|murdering|slaughtering|removing] [1] when [1:their] back is turned.`,p=>{p[2].kill(p[1],`reverse ambush`);});
+			new G.act(anyAttackMult*attackKill*0.1,[coldBloodKiller,'- any !vigilant '+victimKill],`[RED][1] [ambushes [2]|attacks [2] from behind] and [brutalizes|kills|slaughters|strangles|eviscerates] [2:them]!`,p=>{p[1].kill(p[2],`ambush`);});
+			new G.act(anyAttackMult*attackKill*0.1,[coldBloodKiller+,'- barbaric bulky ','- '+victimKill],`[RED][1] shoves [2] down and curbstomps [2:them]!`,p=>{p[1].kill(p[2],`curbstomp`);});
+			new G.act(anyAttackMult*attackKill*0.1,[coldBloodKiller+,'- barbaric bulky !vigilant ', ' '+victimKill],`[RED][1] [ambushes [2]|attacks [2] from behind] and rips [2:their] heart out!`,p=>{p[1].kill(p[2],`heart rip`);});
+				new G.act(anyAttackMult*attackKill*0.02,[coldBloodKiller,'- '+victimKill+' '+hesitentKiller],`[RED][[1] duels it out with [2]|[1] challenges [2] to a duel|[2] challenges [1] to a duel|[1] wants to end things once and for all with [2]|[2] wants to end things once and for all with [1]].<br>[2]'s mangled body is left to rot on the ground.`,p=>{p[1].kill(p[2],`duel`);});
+				new G.act(anyAttackMult*attackKill*0.02,[hesitentKiller+' !sociopath|survivalist%0.5|devious%0.5 deaths:>0','- any '+victimKill],`[RED][1] really doesn't want to, but [1:g|he finds himself|she finds herself|they find themself|it finds itself] having to break [2]'s neck.`,p=>{p[1].kill(p[2],`neck snap`);});
+			new G.act(anyAttackMult*attackKill**0.02,[hesitentKiller+' '+victimKill,'- '+hesitentKiller],`[RED][1] tries to kill [2], but [2] retaliates and punches [1]'s trachea out of place!`,p=>{p[2].kill(p[1],`retaliation`);});
+				new G.act(anyAttackMult*attackKill*0.01,[coldBloodKiller+' '+victimKill,'- '+hesitentKiller],`[RED][[1] duels it out with [2]|[1] challenges [2] to a duel|[2] challenges [1] to a duel|[1] wants to end things once and for all with [2]|[2] wants to end things once and for all with [1]].<br>[1]'s flesh is left festering in the duel's wake.`,p=>{p[2].kill(p[1],`duel`);});
+				new G.act(anyAttackMult*attackKill*0.01,[hesitentKiller+' '+victimKill,'- cute|any%0.2 cute%0.5|seductive%0.5|bikini%0.5|artist%0.5|glasses%0.2|any%0.5 sociopath%0.5|devious%0.5|any%0.5 '+coldBloodKiller],`[RED][1] [ambushes [2]|attacks [2] from behind] and tries to [kill|murder|attack] [2:them] but [2] is too cute to kill.<br>That doesn't stop [2] from [stabbing|strangling|slaughtering|breaking] [1] when [1:their] back is turned.`,p=>{p[2].kill(p[1],`reverse ambush`);});
 			new G.act(anyAttackMult*attackKill*0.01,[coldBloodKiller,'- any '+victimKill,'+ any '+victimKill],`[RED][1] [ambushes [2] and [3]|attacks [2] and [3] from behind|manages to sneak-attack [2] and [3]], [murdering|killing|slaughtering] them both!`,p=>{p[1].kill(p[2],`ambush`);p[1].kill(p[3],`ambush`);});
 			new G.act(anyAttackMult*attackKill*0.02,[coldBloodKiller+ ' leader%0.5|devious%0.5|any%0.5','+ leader%0.5|devious%0.5|any%0.5 !vigilant '+coldBloodKiller,'- any !vigilant'],`[RED][1] and [2] [team up and ambush [3]|come at [3] from both sides|ambush [3]|attack [3] from behind|manage to sneak-attack [3]], [murdering|killing|slaughtering] [3:them]!`,p=>{p[1].kill(p[3],`ambush`,p[2]);});
 			new G.act(anyAttackMult*attackKill*0.02,[coldBloodKiller,'- any '+victimKill,'+ leader%0.5|kind%0.5|bulky%0.5|knight_armor%0.2|kite_shield%0.2|riot_shield%0.2|any%0.2 !sociopath%0.5|survivalist%0.5|cowardly%0.5|devious%0.2|meek%0.2'],`[RED][1] attempts to kill [2], but [3] intervenes just in time!<br>[3] had to kill [1] to protect [2]'s life...`,p=>{p[3].kill(p[1],`retaliation`);});
@@ -3054,25 +3082,52 @@ G={
 			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' big_stick bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] wacked [2] with [1:their] stick, leaving a nasty bruise.`,p=>{p[2].gain('bruised');});
 			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' big_stick bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] beat [2] black and blue with [1:their] stick, beaking a bone or two.`,p=>{p[2].gain('broken');});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' big_stick bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] bludgeons [2] to death with [1:their] big stick!`,p=>{p[1].kill(p[2],`big stick`);});
+			new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' big_stick bulky|barbaric','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] knocks the top off [2]'s skull with [1:their] big stick, and then beats [2]'s body, for good measure.`,p=>{p[1].kill(p[2],`big stick`);});
+						// Boxing Gloves Combat
+			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' boxing_gloves bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] socked [2] in the kisser with [1:their] boxing gloves, leaving a nasty bruise.`,p=>{p[2].gain('bruised');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' boxing_gloves bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] beat the brakes off [2] with boxing gloves, leaving [2:them] dazed and confused.`,p=>{p[2].gain('dazed');});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' boxing_gloves bulky barbaric','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] scores a devastating uppercut on [2]! [2] falls to the ground, choking to death on [2:their] own teeth!`,p=>{p[1].kill(p[2],`boxing gloves`);});
             // Pitchfork Combat
 			new G.act(perkAttackMult*attackMinor*0.4,[hesitentKiller+' pitchfork bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] scratched [2] with [1:their] pitchfork when the two ended up in a fight.`,p=>{p[2].gain('scratched');});
 			new G.act(perkAttackMult*attackKill*0.1,[coldBloodKiller+' pitchfork flight','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill,'+ any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] drops down from the sky, piercing [2] through the head and crushing [2:their] skull with [1:their] pitchfork!`,p=>{p[1].kill(p[2],`pitchfork`);});
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' pitchfork bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][2] was gashed pretty bad by [1]'s pitchfork when it was thrown at [2:them].`,p=>{p[2].gain('cut up');});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' pitchfork bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] lobs [1:their] pitchfork at [2], killing [2:them] instantly!`,p=>{p[1].kill(p[2],`pitchfork`);});
 				new G.act(perkAttackMult*attackKill*0.1,[coldBloodKiller+' pitchfork bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill,'+ any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] skewers [2] and [3] with [1:their] pitchfork!`,p=>{p[1].kill(p[2],`pitchfork`);p[1].kill(p[3],`pitchfork`);});
+						// Knife Combat
+			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' knife bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|knife%0.1 '+victimModerate],`[RED][1] scores a moderate slash across [2]'s torso with [1:their] knife.`,p=>{p[2].gain('cut up');});
+				new G.act(perkAttackMult*attackMajor*0.3,[coldBloodKiller+' knife analytical|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|knife%0.1 '+victimMajor],`[RED][1] stabs [2] directly in the chest! [2] pulls away, but is left bleeding, a lot...`,p=>{p[2].gain('bleeding out');});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' knife bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|knife%0.1 '+victimKill],`[RED][1] slits [2]'s belly open with [1:their] knife!`,p=>{p[1].kill(p[2],`knife`);});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' knife barbaric analytical','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|knife%0.1 '+victimKill],`[RED][1] guts [2] and systematically relieves [2:them] of all [2:their] internal organs as [2:they] watch in terror.`,p=>{p[1].kill(p[2],`knife`);});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' knife barbaric','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|sword%0.1 '+victimKill,'+ any !knight_armor%0.2|kite_shield%0.2|knife%0.1 '+victimKill],`[RED][1] repeatedly stabs [2] and [3] in all the right places! [2] and [3] drop dead in seconds.`,p=>{p[1].kill(p[2],`knife`);p[1].kill(p[3],`knife`);});
 			// Sword Combat
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' sword bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|sword%0.1 '+victimModerate],`[RED][1] sliced [2] with [1:their] sword before [2] could escape.`,p=>{p[2].gain('cut up');});
 				new G.act(perkAttackMult*attackMajor*0.3,[coldBloodKiller+' sword bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|sword%0.1 '+victimMajor],`[RED][1] severely sliced [2] with [1:their] sword, causing excruciating pain.<br>[2] escaped but the bleeding won't stop...`,p=>{p[2].gain('bleeding out');});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' sword bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|sword%0.1 '+victimKill],`[RED][1] artfully [slices|cleaves] [2] [|across|deeply|lethally|in two] with [1:their] [sword|blade]!`,p=>{p[1].kill(p[2],`sword`);});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' sword bulky%0.5|ninja%0.5|any%0.5','- any !knight_armor%0.2|kite_shield%0.2|ninja%0.2|sword%0.1 '+victimKill,'+ any !knight_armor%0.2|kite_shield%0.2|sword%0.1 '+victimKill],`[RED][1] artfully [slices|cleaves] through [2] and [3] in one fell swoop.`,p=>{p[1].kill(p[2],`sword`);p[1].kill(p[3],`sword`);});
+			// Baseball Bat
+			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' baseball_bat bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] wacks [2] in the chest with [1:their] bat. [2]'s ribs feel more loose than before..`,p=>{p[2].gain('broken');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' baseball_bat kind|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] battered [2] until [2] didn't pose a threat. [2] was left alive, but with many broken bones.`,p=>{p[2].gain('broken');});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' baseball_bat bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] strikes a home run on [2]'s forehead, rattling [2]'s brain and killing [2:them] instantly!`,p=>{p[1].kill(p[2],`baseball bat`);});
+			new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' big_stick barbaric','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED]Despite [2]'s fearful begging, [1] breaks [2:their] knees with [1:their] baseball bat, and repeatedly swings on [2]'s collapsed body until it is little more than red paste!`,p=>{p[1].kill(p[2],`baseball bat`);});
+			// Shovel Combat
+			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' shovel bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] smacks [2] upside the head with [1:their] shovel! Though left alive, [2] feels less coordinated than before.`,p=>{p[2].gain('clumsy');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' shovel bulky|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] smacked [2] in the face with [1:their] shovel! [2]'s face is bleeding quite a bit.`,p=>{p[2].gain('bleeding out');});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' shovel bulky|barbaric|any%0.8','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] knocks [2] down and digs into [2:their] chest with [1:their] shovel! [2] cannot cling to life any longer.`,p=>{p[1].kill(p[2],`shovel`);});
+			new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' shovel flight','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] swings down from the sky, using the natural force of gravity to power a fatal shovel swing! [2] was the sad recipient, [2:their] skull had been pushed into [2:their] ribcage.`,p=>{p[1].kill(p[2],`shovel`);});
+			new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' shovel rocket_launcher','- any !knight_armor%0.2|kite_shield%0.2 '+victimKill],`[RED][1] uses the rocket launcher to propel [1:them]self into the air! <br> [2] was minding [2:their] own business when [1] swung down from the sky and battered [2:their] skull into oblivion! <br> [1] can't believe that worked!`,p=>{p[1].kill(p[2],`market garden`);});
 			// Axe Combat
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' axe bulky%0.5|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimModerate],`[RED][2] took an axe chop from [1] before escaping.`,p=>{p[2].gain('cut up');});
 				new G.act(perkAttackMult*attackMajor*0.3,[coldBloodKiller+' axe bulky%0.5|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimMajor],`[RED][1] violently chopped at [2], causing life threatening bleeding!`,p=>{p[2].gain('bleeding out');});
 				new G.act(perkAttackMult*attackKill*0.25,[coldBloodKiller+' axe bulky%0.5|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill],`[RED][1] chops [2] to bits with [1:their] axe!`,p=>{p[1].kill(p[2],`axe`);});
 				new G.act(perkAttackMult*attackKill*0.15,[coldBloodKiller+' axe bulky%0.5|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill,'+ any '+victimKill],`[RED][1] goes axe-crazy, chopping [2] and [3] to bits.`,p=>{p[1].kill(p[2],`axe`);p[1].kill(p[3],`axe`);});
+			// Great Mace
+			new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' great_mace bulky|any%0.2','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] tripped [2] with the long end of [1:their] great mace, which was just sort of annoying.`,p=>{p[2].gain('bruised');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' great_mace bulky|any%0.2','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] swept [2]'s legs with [1:their] mace, shattering [2]'s right leg!`,p=>{p[2].gain('broken');});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' great_mace bulky|any%0.2','- any !knight_armor%0.01|kite_shield%0.01 '+victimKill],`[RED][1] mangles [2]'s body with just one swing of [1:their] great mace!`,p=>{p[1].kill(p[2],`great mace`);});
+				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' great_mace bulky barbaric','- any !knight_armor%0.01|kite_shield%0.01 '+victimKill],`[RED][1] knocks [2] off [2:their] feet with [1:their] great mace! [2] begs for mercy, but [1] holds the mace over [1:their] head and brings it down, shattering [2]'s entire torso! [2] quickly succumbs to [2:their] wounds..`,p=>{p[1].kill(p[2],`great mace`);});
 			// Mjölnir Combat
-				new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' mjölnir kind|any%0.2','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] wacked [2] with [1:their] stick, leaving a nasty bruise.`,p=>{p[2].gain('bruised');});
-			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' mjölnir kind|any%0.2','- any !knight_armor%0.2|kite_shield%0.2 '+victimModerate],`[RED][1] beat [2] black and blue with [1:their] stick, beaking a bone or two.`,p=>{p[2].gain('broken');});
+				new G.act(perkAttackMult*attackMinor*0.6,[hesitentKiller+' mjölnir kind|any%0.2','- any !knight_armor%0.2|kite_shield%0.2 '+victimMinor],`[RED][1] struck [2] with a small electric bolt as a warning. [2] is left burned, but alive.`,p=>{p[2].gain('seared');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' mjölnir kind|any%0.2','- knight_armor '+victimModerate],`[RED][1] struck [2] lightly with mjölnir. Still, the hit sent [2] flying and shattered [2:their] armor!`,p=>{p[2].lose('knight_armor');});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' mjölnir kind|any%0.2','- any !knight_armor%0.01|kite_shield%0.01 '+victimKill],`[RED][1] smites [2] with the wrath of Thor!`,p=>{p[1].kill(p[2],`mjölnir`);});
 				new G.act(perkAttackMult*attackKill*0.2,[coldBloodKiller+' mjölnir kind|any%0.2','- any !knight_armor%0.01|kite_shield%0.01 '+victimKill],`Before [2] can react, their skull is smashed to bits by [1]'s hammer, flying faster than the speed of sound.`,p=>{p[1].kill(p[2],`mjölnir`);});
 			// Stop Sign Combat
@@ -3080,19 +3135,27 @@ G={
 				new G.act(perkAttackMult*attackMajor*0.3,[coldBloodKiller+' stop_sign bulky%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimMajor],`[RED][1] punctured [2] with the bottom end of the stop sign, causing life threatening bleeding!`,p=>{p[2].gain('bleeding out');});
 				new G.act(perkAttackMult*attackKill*0.25,[coldBloodKiller+' stop_sign bulky%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill],`[RED][1] pans for gold in [2]'s skull with [1:their] stop sign!`,p=>{p[1].kill(p[2],`stop_sign`);});
 				new G.act(perkAttackMult*attackKill*0.15,[coldBloodKiller+' stop_sign bulky%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill,'+ any '+victimKill],`[RED][1] ambushes [2] and [3], stabbing [2]'s eyes out and decapitating [3] with the other end! It all happened so fast..`,p=>{p[1].kill(p[2],`stop_sign`);p[1].kill(p[3],`stop_sign`);});
+			// Physgun Combat
+			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' physgun nerd%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimModerate],`[RED][2] was bruised when [1] threw a soda can at [2:them] with [1:their] physgun.`,p=>{p[2].gain('bruised');});
+				new G.act(perkAttackMult*attackModerate*0.3,[coldBloodKiller+' physgun nerd%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimMajor],`[RED][1] tried to crush [2] with a couch! Thankfully for [2], [1] isn't very good with the physgun, and the couch only managed to bruise [2]'s heel.`,p=>{p[2].gain('bruised');});
+				new G.act(perkAttackMult*attackKill*0.25,[coldBloodKiller+' physgun nerd%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill],`[RED][1] pulled a road barrier through [2] using [1:their] physgun, killing [2] instantly!`,p=>{p[1].kill(p[2],`physgun`);});
+				new G.act(perkAttackMult*attackKill*0.15,[coldBloodKiller+' physgun nerd%0.8|survivalist%0.5|any%0.5','- any !knight_armor%0.2|sword%0.1 '+victimKill,'+ any '+victimKill],`[RED][1] tosses a fridge at [2] and [3]! They could hardly react before it collided, sending their mangled bodies through the air like ragdolls!`,p=>{p[1].kill(p[2],`physgun`);p[1].kill(p[3],`physgun`);});
 			// Handgun Combat
 			new G.act(perkAttackMult*attackMinor*0.3,[hesitentKiller+' handgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any combat_gear|knight_armor !riot_shield%0.2|lucky_coin%0.2|marksmen%0.2 '+victimMinor],`[RED][1] manages to ambush [2] with [a few shots.|a headshot!]<br>[2]'s [helmet|armor] saved [2:their] life, but there is a still a ringing in [2:their] ears from the encounter.`,p=>{p[2].gain('dizzy');});
 			new G.act(perkAttackMult*attackModerate*0.6,[hesitentKiller+' handgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.5|combat_gear%0.5|knight_armor%0.3|riot_shield%0.2|lucky_coin%0.2 '+victimModerate],`[RED][1] fires a few rounds at [2] during a brief encounter.<br>[2] escapes with their life, but not without a new [bullet wound|hole|injury].`,p=>{p[2].gain('shot');});
 				new G.act(perkAttackMult*attackKill*0.4,[coldBloodKiller+' handgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.5|combat_gear%0.5|knight_armor%0.3|riot_shield%0.2|lucky_coin%0.2 '+victimKill],`[RED][1] finds [1:themself] face-to-face with [2] and shoots [2:them] dead with [1:their] gun!`,p=>{p[1].kill(p[2],`handgun`);});
 			// Shotgun Combat
 			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' shotgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate],`[RED][2] runs into the business end of [1]'s shotgun, managing to barely survive the [slug|bits of [buck|bird]shot].`,p=>{p[2].gain('shot');});
+			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' shotgun marksmen%0.5|lucky_coin%0.2|any%0.5','- flight !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate],`[RED][1] fires [1:their] shotgun at [2], but [2]'s flight capabiltities allowed [2:them] to avoid most of the pellets, barely being grazed.`,p=>{p[2].gain('cut up');});
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' shotgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate,'+ any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate],`[RED][1] [ambushes|attacks|shoots at] both [2] and [3] together, injuring them with a few shots from [1:their] shotgun.`,p=>{p[2].gain('shot');p[3].gain('shot');});
 				new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' shotgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimKill],`[RED][1] creeps up behind [2] and shoots [2:them] point-blank with [1:their] shotgun!`,p=>{p[1].kill(p[2],`shotgun`);});
+			new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' shotgun marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimKill],`[RED][1] blasts [2] with [1:their] shotgun! The last thing [2] feels is [2:their] torso unravel from the catastrophic damage of the [pellets|slug]..`,p=>{p[1].kill(p[2],`shotgun`);});
 			// Hunting Rifle
 			new G.act(perkAttackMult*attackModerate*0.2,[hesitentKiller+' hunting_rifle marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate],`[RED][2] steps into [1]'s sightline, barely surviving the high-powered shot!.`,p=>{p[2].gain('shot');});
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' hunting_rifle marksmen%0.5|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate,'+ any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimModerate],`[RED][1] [ambushes|snipes|shoots at] both [2] and [3] together, piercing them both with a powerful shot! They are left barely alive..`,p=>{p[2].gain('shot');p[3].gain('shot');});
 				new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' hunting_rifle marksmen%0.8|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimKill],`[RED][1] pulls [1:their] trigger [2] and [snipes|noscopes] [2:them] from a terrifying distance [1:their] rifle!`,p=>{p[1].kill(p[2],`hunting rifle`);});
 			new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' hunting_rifle marksmen%0.8|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimKill],`[RED][2] steps into [1]'s sightline! [2] didn't even hear the shot before [2:their] head flew off..`,p=>{p[1].kill(p[2],`hunting rifle`);});
+			new G.act(perkAttackMult*attackKill*0.5,[coldBloodKiller+' hunting_rifle sociopath marksmen%0.8|lucky_coin%0.2|any%0.5','- any !kevlar_vest%0.2|combat_gear%0.2|riot_shield%0.2 '+victimKill],`[RED][1] knocks [2] to the ground with the stock of [1:their] rifle and executes them! [1] seems to enjoy this too much.`,p=>{p[1].kill(p[2],`hunting rifle`);});
 			// Flamethrower
 			new G.act(perkAttackMult*attackModerate*0.15,[hesitentKiller+' flamethrower !pyromania%0.8|kind%0.5|cowardly%0.2','- any !combat_gear%0.2|wizard_robe%0.2|pyromania%0.2 '+victimModerate],`[RED][1] [catches|ambushes] [2] in a bout of fire!<br>[2] escapes with [some 2nd|plenty of 1st] degree burns.`,p=>{p[2].gain('singed');});
 			new G.act(perkAttackMult*attackModerate*0.1,[hesitentKiller+' flamethrower !pyromania%0.8|kind%0.5|cowardly%0.2','- any !combat_gear%0.2|wizard_robe%0.2|pyromania%0.2 '+victimModerate,'+ any !combat_gear%0.2|wizard_robe%0.2|pyromania%0.2 '+victimModerate],`[RED][1] [catches|ambushes] [2] and [3] in a [burst|gust|flurry] of [fire|flames]!<br>[2] and [3] escape after suffering [a few 2nd|some 2nd|plenty of 1st] degree burns.`,p=>{p[2].gain('singed');p[3].gain('singed');});
@@ -3131,7 +3194,8 @@ G={
 			new G.act(perkAttackMult*attackMinor*0.3,[hesitentKiller+' high_pressure_garden_hose any%0.2|pyromania%0.8|cowardly%0.2|devious%0.3|sociopath%0.4','- any'],`[RED][1] shoots a deadly ray of water-infused silt at [2]!<br>[2] manages to escape, but is left with some ugly gashes and rashes...`,p=>{p[1].has('high pressure garden hose').content.splice(p[1].has('high pressure garden hose').content.indexOf('silt'), 1); p[2].gain('cut up');p[2].gain('cut up');},p=>{return p[1].has('high pressure garden hose').content.includes('silt');});
 			//slime no use
 			// Shuriken Combat
-			new G.act(perkAttackMult*attackMinor*0.3,[hesitentKiller+' shuriken ninja%0.8|marksmen%0.5|any%0.5','- any !kite_shield%0.2|riot_shield%0.2|lucky_coin%0.2 '+victimMinor],`[1] grazed [2] with a few of [1:their] gleaming shuriken.`,p=>{p[2].gain('scratched');});
+			new G.act(perkAttackMult*attackMinor*0.3,[hesitentKiller+' shuriken ninja%0.8|marksmen%0.5|any%0.5','- any !chubby|kite_shield%0.2|riot_shield%0.2|lucky_coin%0.2 '+victimMinor],`[1] grazed [2] with a few of [1:their] gleaming shuriken.`,p=>{p[2].gain('scratched');});
+			new G.act(perkAttackMult*attackMinor*0.3,[hesitentKiller+' shuriken ninja%0.8|marksmen%0.5|any%0.5','- chubby !kite_shield%0.2|riot_shield%0.2|lucky_coin%0.2 '+victimMinor],`[1] perfectly threw a [shuriken|throwing knife] at [2]! However, thanks to [2]'s unique body type, the shuriken barely even broke skin.`,p=>{p[2].gain('scratched');});
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' shuriken ninja%0.8|marksmen%0.5|any%0.5','- any !kite_shield%0.2|riot_shield%0.2|lucky_coin%0.2 '+victimModerate],`[1] managed to leave [2] with a few lacerations after tossing knives at [2:them].`,p=>{p[2].gain('cut up');});
 				new G.act(perkAttackMult*attackKill*0.3,[coldBloodKiller+' shuriken ninja%0.8|marksmen%0.5|any%0.5 !clumsy%0.2|dizzy%0.2','- any !kite_shield%0.2|riot_shield%0.2|lucky_coin%0.2 '+victimKill],`[RED][1] strikes [2] right in the neck with a [shuriken|throwing knife], killing [2:them] before [2] knew what was coming!`,p=>{p[1].kill(p[2],`shuriken`);});
 				new G.act(perkAttackMult*attackKill*0.3,[coldBloodKiller+' shuriken flight !clumsy%0.2|dizzy%0.2','- any lucky_coin%0.2 '+victimKill],`[RED][1] drops a shuriken on [2]'s head from a great height! [2] never saw it coming..`,p=>{p[1].kill(p[2],`shuriken`);});
