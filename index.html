@@ -924,6 +924,7 @@ G={
         // Additional Pets -TW
         new G.perk({name:`pet hawk`,desc:`A cunning pet hawk to spy from the skies above.`,tier:1});
 		new G.perk({name:`pet rock`,desc:`A classic pet rock to teach tons of neat tricks.`,tier:0});
+		new G.perk({name:`withered foxy`,desc:`Has a tendency to get the jump on people..`,tier:3});
 
         // Additional items -TW
         new G.perk({name:`cursed knife`,desc:`May force it's user into unspeakable things.`,tier:1});
@@ -2446,7 +2447,11 @@ G={
 				new G.act(0.25,['has_killed combat_gear'],`[1] washes the blood off of [1:their] combat gear.`);
 			new G.act(0.5,['wizard_robe'],`[1] [shakes [1:their] wizard sleeves, and a thousand tiny animals fall out|sneezes from all the sparkles coming out of [1:their] wizard robe, making [1:them] levitate for a few seconds|is looking magical today].`);
 				new G.act(0.25,['has_killed wizard_robe'],`[1] washes the blood off of [1:their] wizard robe.`);
-            
+            new G.act(0.6,['withered_foxy'],`[1] admires [1:their] withered foxy.`);
+			new G.act(0.2,['withered_foxy has_killed'],`[1] delicately washes the blood out of withered foxy's joints.`);
+			new G.act(0.1,['withered_foxy dead !nihil'],`[1]'s withered foxy looks for [1:them], but [1] is nowhere to be found.`);
+			new G.act(0.1,['withered_foxy !has_killed !peaceful'],`[1] is ashamed of [1:their] withered foxy's inability to kill.`);
+	
             // Additional Item idling -TW
 			new G.act(0.5,['shuriken !peaceful|ninja%0.5|clumsy%0.5|marksmen%0.2'],`[1] tosses a few of [1:their] [knives|shuriken] at a [tree|wall|target] for practice.`);
 				new G.act(0.25,['shuriken ninja|marksmen%0.5 !clumsy%0.5|meek%0.2'],`[1] [juggles|practices with] [1:their] [knives|shuriken] with [expert|true|keen] [skill|finesse].`);
@@ -3355,6 +3360,7 @@ G={
 				new G.act(perkAttackMult*attackKill*0.3,[hesitentKiller+' pet_tiger animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill],`[RED][1] sics [1:their] pet tiger on [2]!<br>[2] gets mauled to laces by the ravenous animal!`,p=>{p[1].kill(p[2],`pet tiger`);});
 				new G.act(perkAttackMult*attackKill*0.2,[hesitentKiller+' pet_tiger animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill,'+ any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill],`[RED][1] ambushes [2] and [3] with [1:their] tiger!<br>[2] and [3] never had a chance against the [apex|deadly|massive] [predator|carnivore|striped feline|beast].`,p=>{p[1].kill(p[2],`pet tiger`);p[1].kill(p[3],`pet tiger`);});
 				new G.act(perkAttackMult*attackFail*0.3,[hesitentKiller+' pet_tiger !animal_ken%0.5|sociopath%0.5|survivalist%0.2|rich%0.2','- any animal_ken%0.8|peaceful%0.2|kind%0.2|rich%0.2 !meek%0.2|naive%0.2|cowardly%0.2'],`[1] sics [1:their] pet tiger on [2]!<br>[2] [never breaks eye contact with|never turns [2:their] back to|avoids getting caught by] the [apex|deadly|massive] [predator|carnivore|striped feline|beast] until the tiger finally loses interest and leaves.`);
+			//Lobster combat
 			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' pet_lobster animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimModerate],`[RED][1] sics [1:their] pet lobster on [2]!<br>[1:Their] lobster thankfully only lands one sonic blast on [2:them] before they hurry out of its sight and clutching [2:their] ears.`,p=>{p[2].gain('dazed');p[2].gain('dizzy');});
 				new G.act(perkAttackMult*attackKill*0.3,[hesitentKiller+' pet_lobster animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill],`[RED][1] sics [1:their] pet lobster on [2]!<br>[1:They] could only have gleamed [1:their] lobster\'s shell before [2:their] life was completely blown away by a chain of sonic blasts.`,p=>{p[1].kill(p[2], 'pet lobster');});
 				new G.act(perkAttackMult*attackKill*0.15,[hesitentKiller+' pet_lobster animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','!= any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill,'!= any delete%0.5 !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill,'!= any delete%0.5 !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill,'!= any delete%0.5 !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill],`[1] ambushes [ALL-1] with [1:their] pet lobster!<br>The poor [souls|sods|people|innocent people] were just [discussing|arguing|debating|thinking of] how to [cook|prepare|slice|marinate|kill|catch] it when it [snaps|snips|crushes|closes] its claws with enough force for blood to [rush|gush|spill] out of every [orifice|hole in the body]!`,p=>{for (let i = 2; i < p.length; i++) { p[1].kill(p[i], 'pet lobster'); }});
@@ -3362,6 +3368,8 @@ G={
 				new G.act(perkAttackMult*attackFail*0.3,[hesitentKiller+' pet_lobster !animal_ken%0.5|sociopath%0.5|survivalist%0.2|rich%0.2','- any animal_ken%0.8|peaceful%0.2|kind%0.2|rich%0.2 !meek%0.2|naive%0.2|cowardly%0.2'],`[1] sics [1:their] pet lobster on [2]!<br>Thankfully, despite its unassuming size, [2] had the foresight to be run away as fast as possible before it had the chance to blow [2:them] away. Phew!`);
 			//pet lobster making people peaceful (disabled for now since the descriptive combat counterpart isnt yet implemented)
 			//new G.act(0.1,['pet_lobster any !peaceful'],`[1] wants to protect [1:their] precious pet lobster, whatever it takes...<br>Since it's so small, [1:they] decide that the best way is to stay under and avoid confrontations, for now.`,p=>{p[1].gain('peaceful');});
+			new G.act(perkAttackMult*attackModerate*0.3,[hesitentKiller+' withered_foxy animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimModerate],`[RED][1] sends [1:their] withered foxy after [2]! The jumpscare leaves [2] alive, but shaken..`,p=>{p[2].gain('dazed');p[2].gain('dizzy');});
+				new G.act(perkAttackMult*attackKill*0.3,[hesitentKiller+' withered_foxy animal_ken%0.8|meek%0.2|cowardly%0.2|rich%0.2|any%0.5','- any !animal_ken%0.5|kind%0.2|rich%0.2 '+victimKill],`[RED][1] sics [1:their] withered foxy on [2]!<br>The last thing [2] saw was a withered foxy leaping straight at [2:them]!`,p=>{p[1].kill(p[2], 'withered foxy');});
 			
 			// Injury Events
 			var healthMinor='bulky%0.3|stubborn%0.3|plot_armor%0.2|any%0.5 !scratched%0.2|bruised%0.2|sick%0.2|dizzy%0.2';
